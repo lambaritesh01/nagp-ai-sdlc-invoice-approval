@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import sqlite3
 from collections.abc import Iterator
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 
@@ -33,19 +34,23 @@ def get_conn(request: Request) -> Iterator[sqlite3.Connection]:
         conn.close()
 
 
+# FastAPI dependency alias (avoids a call expression in argument defaults).
+DbConn = Annotated[sqlite3.Connection, Depends(get_conn)]
+
+
 @router.post("/invoices", response_model=InvoiceOut, status_code=status.HTTP_201_CREATED)
-def create_invoice(payload: InvoiceCreate, conn: sqlite3.Connection = Depends(get_conn)):
+def create_invoice(payload: InvoiceCreate, conn: DbConn):
     invoice = invoice_service.create_invoice(conn, payload.vendor, payload.amount)
     return InvoiceOut.from_domain(invoice)
 
 
 @router.get("/invoices", response_model=list[InvoiceOut])
-def list_invoices(conn: sqlite3.Connection = Depends(get_conn)):
+def list_invoices(conn: DbConn):
     return [InvoiceOut.from_domain(i) for i in invoice_service.list_invoices(conn)]
 
 
 @router.get("/invoices/{invoice_id}", response_model=InvoiceOut)
-def get_invoice(invoice_id: int, conn: sqlite3.Connection = Depends(get_conn)):
+def get_invoice(invoice_id: int, conn: DbConn):
     try:
         invoice = invoice_service.get_invoice(conn, invoice_id)
     except invoice_service.InvoiceNotFoundError:
@@ -58,7 +63,7 @@ def get_invoice(invoice_id: int, conn: sqlite3.Connection = Depends(get_conn)):
 def submit_approval(
     invoice_id: int,
     payload: ApprovalCreate,
-    conn: sqlite3.Connection = Depends(get_conn),
+    conn: DbConn,
 ):
     try:
         result = invoice_service.submit_approval(

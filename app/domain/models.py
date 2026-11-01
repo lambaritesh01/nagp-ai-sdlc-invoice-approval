@@ -11,7 +11,7 @@ class Role(str, Enum):
     DIRECTOR = "DIRECTOR"
 
     @classmethod
-    def parse(cls, value: object) -> "Role | None":
+    def parse(cls, value: object) -> Role | None:
         """Return the Role for a case-insensitive string, else None."""
         if isinstance(value, Role):
             return value

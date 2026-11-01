@@ -32,7 +32,7 @@ class ApprovalOut(BaseModel):
     approved_at: str | None = None
 
     @classmethod
-    def from_domain(cls, a: Approval) -> "ApprovalOut":
+    def from_domain(cls, a: Approval) -> ApprovalOut:
         return cls(approver=a.approver, role=a.role.value,
                    sequence=a.sequence, approved_at=a.approved_at)
 
@@ -46,7 +46,7 @@ class InvoiceOut(BaseModel):
     approvals: list[ApprovalOut] = []
 
     @classmethod
-    def from_domain(cls, inv: Invoice) -> "InvoiceOut":
+    def from_domain(cls, inv: Invoice) -> InvoiceOut:
         return cls(
             id=inv.id, vendor=inv.vendor, amount=inv.amount,
             status=inv.status.value, created_at=inv.created_at,

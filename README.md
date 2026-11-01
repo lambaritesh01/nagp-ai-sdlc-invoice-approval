@@ -83,9 +83,12 @@ Then open <http://127.0.0.1:8000/> for the UI, or the API docs at
 
 ## Current implementation status
 
-- ✅ AI-SDLC baseline: logging hooks, sanitized evidence export, Spec Kit, docs,
-  and 64 passing logging/export tests.
-- 🚧 Invoice approval application (domain, API, UI, tests) — in progress on
-  `feature/invoice-approval`.
+- ✅ AI-SDLC baseline: logging hooks, sanitized evidence export, Spec Kit, docs.
+- ✅ Spec Kit artifacts: constitution, spec, plan, tasks for invoice approval.
+- ✅ Application: domain rules, SQLite persistence, service layer, FastAPI API,
+  and a static HTML/JS UI.
+- ✅ Tests: **97 passing** (64 logging/export + 33 invoice rule/API tests);
+  Ruff clean; live smoke test of the running server passed.
+- ⏳ Next (separate step): Playwright E2E, mutation testing, AI code review, PR.
 
-This status section is updated as milestones land.
+Developed on `feature/invoice-approval`.
