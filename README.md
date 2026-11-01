@@ -98,6 +98,7 @@ Then open <http://127.0.0.1:8000/> for the UI, or the API docs at
   94.29% → 97.14% (see [`docs/mutation-testing/`](docs/mutation-testing/)).
 - ✅ Formal AI code review completed; dispositions in
   [`docs/code-review/`](docs/code-review/).
-- ⏳ Next (separate step): PR review/merge and demo recording.
+- ✅ Demonstration video recorded (linked in [`ASSIGNMENT.md`](ASSIGNMENT.md)).
+- ⏳ Next (separate step): PR review/merge.
 
 Developed on `feature/invoice-approval`.

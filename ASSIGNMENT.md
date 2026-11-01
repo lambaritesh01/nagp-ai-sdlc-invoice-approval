@@ -121,7 +121,9 @@ python -m venv .venv
   disabled).
 
 ## Demonstration video
-<!-- TODO: add the real recorded demonstration video link here before submission. -->
-**[PLACEHOLDER — demonstration video not yet recorded.]** A step-by-step script
-to record it is in [`docs/demo-script.md`](docs/demo-script.md). No video exists
-until a real recording is provided.
+[Watch the NAGP AI-SDLC demonstration](https://nagarro-my.sharepoint.com/:v:/p/ritesh_kumar05/IQB9-mlW1BQtR7WbSh3ObBn4AVLfhpd4uwKTNtjx5E3uxP0?e=dwm5bJ)
+
+> The video walks through the repository, Spec Kit artifacts, specialist agents,
+> logging hooks and sanitized evidence, the business-rule code, the live approval
+> scenarios, the automated and Playwright tests, mutation testing, the AI code
+> review, and the pull request. Access is managed via the SharePoint link above.
