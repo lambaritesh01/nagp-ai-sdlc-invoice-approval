@@ -152,6 +152,19 @@ def test_already_approved_further_attempt_rejected(client):
     assert "already" in r.json()["detail"]["message"]
 
 
+def test_approval_sequence_numbers(client):
+    # Approval history records 1-based, ordered sequence numbers.
+    inv = _create(client, "seq", 600_000)
+    _approve(client, inv["id"], "alice", "DIRECTOR")
+    _approve(client, inv["id"], "bob", "DIRECTOR")
+    approvals = client.get(f"/api/invoices/{inv['id']}").json()["approvals"]
+    assert [a["sequence"] for a in approvals] == [1, 2]
+    single = _create(client, "seq1", 1000)
+    _approve(client, single["id"], "m", "MANAGER")
+    one = client.get(f"/api/invoices/{single['id']}").json()["approvals"]
+    assert [a["sequence"] for a in one] == [1]
+
+
 def test_duplicate_finalization_blocked(client):
     # Completing a high-value invoice, then a third attempt is rejected and
     # does not add history.
