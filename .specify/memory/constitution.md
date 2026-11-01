@@ -1,50 +1,56 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Invoice Approval Constitution
+
+Project principles for the NAGP AI-SDLC invoice approval application. These are
+binding guidance for all specs, plans, tasks, and implementation.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Business rules are the product
+Approval thresholds and the high-value dual-approval control are the core value.
+They live in a pure, I/O-free domain layer and are specified unambiguously and
+testably. No route, service, or UI may re-implement or bypass a rule.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Test-first on rules and boundaries (NON-NEGOTIABLE)
+Every threshold boundary (49,999/50,000/50,001 and 499,999/500,000/500,001) and
+every negative/edge case has an explicit test at the domain level and, where it
+crosses the API, at the API level. Negative tests must prove a rule, not mirror
+the implementation.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Safe rejection
+A disallowed approval attempt returns a clear, descriptive reason and makes **no**
+change to the invoice's persisted state or approval history. State transitions are
+explicit and auditable.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Simplicity and independence
+Standard-library-first: FastAPI + Pydantic at the boundary, stdlib `sqlite3` for
+storage, vanilla HTML/CSS/JS for UI. No ORM, no external services, no unnecessary
+frameworks. Small, layered architecture with inward-pointing dependencies.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Honest, privacy-safe evidence
+AI-SDLC activity is captured by genuine hooks and submitted only via the sanitized
+export. Never fabricate tests, metrics, approvals, or evidence. Ambiguities are
+recorded as explicit ASSUMPTIONs, never as instructor-confirmed facts.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Additional Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Python 3.13 and the existing project `.venv`; avoid new dependencies.
+- Clear HTTP semantics: 201 create, 200 read/approve-success, 404 missing,
+  409 business rejection, 422 input validation.
+- Parameterized SQL only; validate all external input; no secrets in code/logs;
+  keep the GitHub repository private; personal Git identity only.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow & Quality Gates
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+1. Spec Kit: constitution → specification → plan → tasks.
+2. Implement against the artifacts; keep domain logic pure and tested.
+3. Specialist agents review requirements, tests, and security.
+4. All tests (including the existing logging/export suite) and Ruff must pass
+   before a change is considered complete.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution guides development. Amendments are documented in-file with a
+version bump. Complexity must be justified against Principle IV; use
+[AGENTS.md](../../AGENTS.md) and [CLAUDE.md](../../CLAUDE.md) for runtime guidance.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-11-01 | **Last Amended**: 2026-11-01

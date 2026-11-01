@@ -30,6 +30,9 @@ coverage.xml
 htmlcov/
 *.cover
 
+# --- Generated mutation/coverage report dir (evidence is copied to docs/) ---
+coverage/
+
 # --- Mutation-testing temporary artifacts (pytest-gremlins etc.) ---
 .gremlins/
 .gremlins_cache/

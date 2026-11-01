@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invoice Approval</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Invoice Approval</h1>
+    <p class="rules">
+      Manager &le; 50,000 &middot; Director &le; 500,000 &middot;
+      &gt; 500,000 needs two distinct approvers (second must be a Director)
+    </p>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2>Create invoice</h2>
+      <form id="create-form">
+        <label>Vendor <input id="vendor" type="text" required placeholder="Acme Ltd" /></label>
+        <label>Amount <input id="amount" type="number" min="1" step="1" required placeholder="50000" /></label>
+        <button type="submit">Create</button>
+        <button type="button" id="seed-btn" class="secondary">Seed examples</button>
+      </form>
+      <p id="create-msg" class="msg"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Submit approval</h2>
+      <form id="approve-form">
+        <label>Invoice ID <input id="inv-id" type="number" min="1" required /></label>
+        <label>Approver <input id="approver" type="text" required placeholder="alice" /></label>
+        <label>Role
+          <select id="role">
+            <option value="MANAGER">MANAGER</option>
+            <option value="DIRECTOR">DIRECTOR</option>
+          </select>
+        </label>
+        <button type="submit">Approve</button>
+      </form>
+      <p id="approve-msg" class="msg"></p>
+    </section>
+
+    <section class="panel">
+      <div class="row">
+        <h2>Invoices</h2>
+        <button type="button" id="refresh-btn" class="secondary">Refresh</button>
+      </div>
+      <table id="invoices">
+        <thead>
+          <tr><th>ID</th><th>Vendor</th><th>Amount</th><th>Status</th><th>Approvals</th><th></th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
