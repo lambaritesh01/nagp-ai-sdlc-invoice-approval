@@ -36,6 +36,6 @@ work lands.
 - [x] T013 Smoke-test app startup and core API via the project venv.
 
 ## Phase 6 — Review (specialist agents)
-- [ ] T014 `requirements-reviewer` on spec/plan.
-- [ ] T015 `test-edge-reviewer` on the test suite.
-- [ ] T016 `security-reviewer` on the implementation.
+- [x] T014 `requirements-reviewer` on spec/plan.
+- [x] T015 `test-edge-reviewer` on the test suite.
+- [x] T016 `security-reviewer` on the implementation.

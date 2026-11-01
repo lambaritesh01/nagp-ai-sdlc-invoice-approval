@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import pytest
+
 
 def _create(client, vendor="Acme", amount=1000):
     r = client.post("/api/invoices", json={"vendor": vendor, "amount": amount})
@@ -60,6 +62,37 @@ def test_director_boundary_api(client):
     assert r.status_code == 200
     assert r.json()["outcome"] == "approved"
     assert r.json()["invoice"]["status"] == "APPROVED"
+
+
+@pytest.mark.parametrize(
+    "amount, role, http, outcome",
+    [
+        # All six boundary values exercised through the HTTP API.
+        (49_999, "MANAGER", 200, "approved"),
+        (50_000, "MANAGER", 200, "approved"),
+        (50_001, "MANAGER", 409, "rejected"),
+        (49_999, "DIRECTOR", 200, "approved"),
+        (50_001, "DIRECTOR", 200, "approved"),
+        (499_999, "DIRECTOR", 200, "approved"),
+        (500_000, "DIRECTOR", 200, "approved"),
+        (499_999, "MANAGER", 409, "rejected"),
+        (500_000, "MANAGER", 409, "rejected"),
+        (500_001, "DIRECTOR", 200, "pending_second_approval"),
+        (500_001, "MANAGER", 200, "pending_second_approval"),  # first approver A2
+    ],
+)
+def test_all_boundaries_api(client, amount, role, http, outcome):
+    inv = _create(client, "b", amount)
+    r = _approve(client, inv["id"], "alice", role)
+    assert r.status_code == http, r.text
+    body = r.json()
+    got = body["outcome"] if http == 200 else body["detail"]["outcome"]
+    assert got == outcome
+    # A rejected boundary attempt must leave the invoice PENDING & empty.
+    if http == 409:
+        after = client.get(f"/api/invoices/{inv['id']}").json()
+        assert after["status"] == "PENDING"
+        assert after["approvals"] == []
 
 
 def test_invalid_role_api_rejected(client):
