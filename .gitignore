@@ -1,0 +1,102 @@
+# ---------------------------------------------------------------------------
+# NAGP AI-SDLC — Invoice Approval Application
+# .gitignore
+#
+# Goal: exclude local/generated/secret artifacts while KEEPING all source,
+# tests, specs, and submission documents tracked.
+# ---------------------------------------------------------------------------
+
+# --- Python virtual environment ---
+.venv/
+venv/
+env/
+
+# --- Python bytecode / caches ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# --- pytest ---
+.pytest_cache/
+
+# --- Ruff ---
+.ruff_cache/
+
+# --- Coverage output ---
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.cover
+
+# --- Mutation-testing temporary artifacts (pytest-gremlins etc.) ---
+.gremlins/
+.gremlins_cache/
+.mutmut-cache
+mutation-*.log
+
+# --- Playwright generated artifacts (reports/traces, NOT the tests) ---
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# --- Local environment variables and secret files ---
+.env
+.env.*
+*.env
+*.secret
+*.secrets
+secrets.*
+*.pem
+*.key
+
+# --- Editor / IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- Application runtime data (SQLite) ---
+*.db
+*.sqlite
+*.sqlite3
+app/data/
+
+# --- Debug / transient logs ---
+*.log
+debug.log
+
+# --- Operating-system temporary files ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Claude Code local/secret settings (keep shareable settings.json tracked) ---
+.claude/settings.local.json
+.claude/**/*.local.*
+
+# --- AI logging runtime artifacts ---
+docs/ai-interaction-logs/capture-errors.log
+docs/ai-interaction-logs/*.lock
+
+# The raw production interaction log is LOCAL evidence only. It is written live
+# by the hooks and may contain absolute machine paths from before the Step 32
+# artifact-path fix, so it is NOT committed. A reviewed, sanitized,
+# commit-ready evidence file will be produced separately (a later step).
+# NOTE: this excludes ONLY the raw log file; the schema docs, the
+# manual-entry template, and setup-decisions.md in this directory stay tracked.
+docs/ai-interaction-logs/interactions.jsonl
+
+# ---------------------------------------------------------------------------
+# NOTE: The following are intentionally NOT ignored (must be submitted):
+#   - application source code and configuration
+#   - unit tests and Playwright tests
+#   - AGENTS.md, CLAUDE.md, ASSIGNMENT.md
+#   - specification and task files
+#   - AI interaction-log schema docs, template, and setup-decisions.md
+#     (the raw interactions.jsonl itself is excluded above; a sanitized,
+#      commit-ready evidence file will be added in a separate reviewed step)
+# ---------------------------------------------------------------------------

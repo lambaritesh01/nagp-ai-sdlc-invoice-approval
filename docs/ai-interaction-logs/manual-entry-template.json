@@ -1,0 +1,25 @@
+{
+  "_comment": "TEMPLATE for a MANUAL human-authored record. Copy one JSON object onto a single line in interactions.jsonl, or pipe it to log_event.py --mode manual. Manual records have source='manual' to distinguish them from automatically captured (source='auto') hook events. VERIFICATION: default this to 'self-reported'; authorship by a human is NOT independent verification. Use 'verified' ONLY when independent evidence (a commit SHA, a passing test, a reviewed diff) is referenced in execution_evidence/evidence_refs. The writer only fills in 'verified' when this field is omitted, so keep it explicit. CORRECTIONS: to correct/reference a prior event, put its id in evidence_refs (e.g. 'evt-000115') AND restate it in notes (e.g. 'corrects evt-000115'); no new schema field is needed. Do NOT include secrets, tokens, or raw credentials.",
+  "event_id": "evt-000000",
+  "timestamp": "2026-10-31T00:00:00Z",
+  "lifecycle_phase": "<setup|constitution|specify|plan|tasks|implement|test|review|deploy>",
+  "source": "manual",
+  "ai_tool": "claude-code",
+  "model": "UNKNOWN",
+  "summary": "<one-line description of the human decision/correction/validation/outcome>",
+  "completion_status": "<success|partial|failed|blocked|pending|UNKNOWN>",
+  "verification_status": "self-reported",
+  "human": {
+    "decisions": ["<approval or go/no-go decision made by a human>"],
+    "corrections": ["<where a human changed or rejected AI output>"],
+    "validation": ["<review performed, diff inspected, tests confirmed>"]
+  },
+  "execution_evidence": {
+    "commits": ["git:<full-sha>"],
+    "tests": ["<command + result reference>"],
+    "commands": []
+  },
+  "evidence_refs": ["<evt-xxxxxx corrected or referenced>", "<file:path:line-range>", "git:<full-sha>"],
+  "outcome": "<result/impact of the human action>",
+  "notes": "<optional; e.g. 'corrects evt-000007' (pair with the evt id in evidence_refs) or 'secret redacted'>"
+}
