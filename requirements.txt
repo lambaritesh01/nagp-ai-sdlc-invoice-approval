@@ -1,0 +1,19 @@
+# NAGP AI-SDLC invoice approval — pinned to the versions validated on this project.
+# Install into a fresh Python 3.13 virtual environment:
+#   python -m venv .venv
+#   .venv\Scripts\python.exe -m pip install -r requirements.txt
+#   .venv\Scripts\python.exe -m playwright install chromium   # or use a system
+#                                                               # Chrome/Edge channel
+
+# --- Application runtime ---
+fastapi==0.162.0
+uvicorn==0.54.0
+pydantic==2.14.2
+
+# --- Testing / quality ---
+httpx==0.28.1
+pytest==9.2.0
+pytest-playwright==0.10.0
+playwright==1.64.1
+pytest-gremlins==1.13.2
+ruff==0.17.3

@@ -49,11 +49,15 @@ Uses the existing project virtual environment (Python 3.13):
 
 ```powershell
 # from the repo root
-.\.venv\Scripts\Activate.ps1      # or call .venv\Scripts\python.exe directly
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+# For browser E2E, install a browser (or use a system Chrome/Edge channel):
+.venv\Scripts\python.exe -m playwright install chromium
 ```
 
-No new dependencies are required beyond the pre-installed FastAPI, Uvicorn,
-httpx, pytest, and Ruff.
+All dependencies are pinned in [`requirements.txt`](requirements.txt)
+(FastAPI, Uvicorn, Pydantic, httpx, pytest, pytest-playwright, Playwright,
+pytest-gremlins, Ruff).
 
 ## Run
 
@@ -67,8 +71,9 @@ Then open <http://127.0.0.1:8000/> for the UI, or the API docs at
 ## Test
 
 ```powershell
-.venv\Scripts\python.exe -m pytest -q          # full suite
-.venv\Scripts\python.exe -m ruff check .        # lint
+.venv\Scripts\python.exe -m pytest -q           # unit + integration (E2E excluded)
+.venv\Scripts\python.exe -m pytest -m e2e -q    # browser E2E (needs a browser)
+.venv\Scripts\python.exe -m ruff check .         # lint
 ```
 
 ## AI-SDLC process
@@ -87,8 +92,12 @@ Then open <http://127.0.0.1:8000/> for the UI, or the API docs at
 - ✅ Spec Kit artifacts: constitution, spec, plan, tasks for invoice approval.
 - ✅ Application: domain rules, SQLite persistence, service layer, FastAPI API,
   and a static HTML/JS UI.
-- ✅ Tests: **97 passing** (64 logging/export + 33 invoice rule/API tests);
-  Ruff clean; live smoke test of the running server passed.
-- ⏳ Next (separate step): Playwright E2E, mutation testing, AI code review, PR.
+- ✅ Tests: **110 unit/integration passing** (64 logging/export + 46 invoice
+  rule/API) plus **8 Playwright browser E2E**; Ruff clean.
+- ✅ Mutation testing (pytest-gremlins): `rules.py` 100%; broader scope improved
+  94.29% → 97.14% (see [`docs/mutation-testing/`](docs/mutation-testing/)).
+- ✅ Formal AI code review completed; dispositions in
+  [`docs/code-review/`](docs/code-review/).
+- ⏳ Next (separate step): PR review/merge and demo recording.
 
 Developed on `feature/invoice-approval`.

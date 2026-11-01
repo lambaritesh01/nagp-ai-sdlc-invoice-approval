@@ -67,7 +67,9 @@ def evaluate_approval(
     first = existing_approvals[0]
     if parsed != Role.DIRECTOR:
         return _reject(status, "the second approver of a high-value invoice must be a DIRECTOR")
-    if approver == first.approver:
+    # Distinctness is case-insensitive so the same person cannot supply both
+    # high-value approvals by varying the casing of their identity.
+    if approver.casefold() == first.approver.casefold():
         return _reject(
             status,
             "the second approver must be different from the first approver",

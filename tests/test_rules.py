@@ -83,6 +83,16 @@ def test_highvalue_same_person_second_rejected():
     assert d.new_status == InvoiceStatus.PENDING_SECOND_APPROVAL
 
 
+def test_highvalue_same_person_second_rejected_case_insensitive():
+    # "Alice" vs "alice" is the same person; distinctness must be case-insensitive.
+    d = evaluate_approval(
+        InvoiceStatus.PENDING_SECOND_APPROVAL, 600_000,
+        _first_approval("alice", Role.DIRECTOR), "Alice", Role.DIRECTOR,
+    )
+    assert d.allowed is False
+    assert "different" in (d.reason or "")
+
+
 def test_highvalue_second_must_be_director():
     d = evaluate_approval(
         InvoiceStatus.PENDING_SECOND_APPROVAL, 600_000,

@@ -20,7 +20,8 @@ CREATE TABLE IF NOT EXISTS approvals (
     approver    TEXT    NOT NULL,
     role        TEXT    NOT NULL,
     sequence    INTEGER NOT NULL,
-    approved_at TEXT    NOT NULL
+    approved_at TEXT    NOT NULL,
+    UNIQUE(invoice_id, sequence)
 );
 
 CREATE INDEX IF NOT EXISTS idx_approvals_invoice ON approvals(invoice_id);
